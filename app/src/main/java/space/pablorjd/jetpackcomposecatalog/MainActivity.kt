@@ -16,12 +16,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccountBox
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
@@ -29,9 +32,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,6 +49,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -62,21 +69,37 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
+                    val myOption = getOptions(
+                        titles = listOf(
+                            "Pablo",
+                            "Litzi",
+                            "Florencia",
+                            "Maximiliano",
+                            "Noa"
+                        )
+                    )
                     Column {
-                        /**MyTextFildsAdvance()
-                        Spacer(modifier = Modifier.height(20.dp))
-                        MyTextFieldOutlined()**/
+                        myOption.forEach { checkInfo ->
+                           // MyCheckBoxWithTextCompleted(checkInfo)
+                        }
 
-                        // var myText: String by remember { mutableStateOf("Pablo") }
-                        // MyTextFilds(myText, { myText = it })
-                        //MyButton()
-                        //MyProgressBar()
-                        MyProgressBarAdavance()
+                        MyTriStatusCheckBox()
                     }
-
                 }
             }
         }
+    }
+}
+
+@Composable
+fun getOptions(titles: List<String>): List<CheckInfo> {
+    return titles.map {
+        var status by rememberSaveable { mutableStateOf(false) }
+        CheckInfo(
+            title = it,
+            selected = status,
+            onCheckeChange = { myNewStatus -> status = myNewStatus }
+        )
     }
 }
 
@@ -88,9 +111,82 @@ fun GreetingPreview() {
         //MyButton()
         //MyImageAdavance()
 
-        MyIcon()
-        MyProgressBarAdavance()
+        //MyIcon()
+        //MyProgressBarAdavance()
+        //Spacer(modifier = Modifier.padding(top = 16.dp))
+        MyCheckBoxWithText()
     }
+}
+
+@Composable
+fun MyTriStatusCheckBox() {
+    var state by rememberSaveable { mutableStateOf(ToggleableState.Off) }
+    TriStateCheckbox(state = state, onClick = {
+        state = when(state) {
+            ToggleableState.On -> ToggleableState.Off
+            ToggleableState.Off -> ToggleableState.Indeterminate
+            ToggleableState.Indeterminate -> ToggleableState.On
+        }
+    })
+
+}
+// state hoisting trabajando con estados mas complejos
+@Composable
+fun MyCheckBoxWithTextCompleted(checkInfo: CheckInfo) {
+
+    Row(
+        modifier = Modifier.padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = checkInfo.selected,
+            onCheckedChange = { checkInfo.onCheckeChange(!checkInfo.selected) })
+        Spacer(Modifier.width(8.dp))
+        Text(text = checkInfo.title)
+    }
+}
+
+@Composable
+fun MyCheckBoxWithText() {
+    var state by rememberSaveable { mutableStateOf(true) }
+    Row(
+        modifier = Modifier.padding(8.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(checked = state, onCheckedChange = { state = !state })
+        Spacer(Modifier.width(8.dp))
+        //Text(text = "Ejemplo 1", Modifier.padding( top = 12.dp)) forma 1
+        Text(text = "Ejemplo 2")
+    }
+}
+
+@Composable
+fun MyCheckBox() {
+    var state by rememberSaveable { mutableStateOf(true) }
+    Checkbox(
+        checked = state, onCheckedChange = { state = !state }, enabled = true,
+        colors = CheckboxDefaults.colors(
+            checkedColor = Color.Red,
+            uncheckedColor = Color.Green
+        )
+    )
+}
+
+@Composable
+fun MySwitch() {
+    var state by rememberSaveable { mutableStateOf(true) }
+
+    Switch(
+        checked = state,
+        onCheckedChange = { state = !state },
+        enabled = true,
+        colors = SwitchDefaults.colors(
+            uncheckedThumbColor = Color.Red,
+            checkedThumbColor = Color.Green,
+            uncheckedTrackColor = Color.Magenta,
+            checkedTrackColor = Color.Cyan
+        )
+    )
 }
 
 @Composable
@@ -112,11 +208,12 @@ fun MyProgressBarAdavance() {
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp), horizontalArrangement = Arrangement.SpaceAround) {
-            Button(onClick = { percentToProgress+=0.1f }) {
+                .padding(top = 16.dp), horizontalArrangement = Arrangement.SpaceAround
+        ) {
+            Button(onClick = { percentToProgress += 0.1f }) {
                 Text(text = "Incrementar +")
             }
-            Button(onClick = { percentToProgress-=0.1f }) {
+            Button(onClick = { percentToProgress -= 0.1f }) {
                 Text(text = "Decrementar -")
             }
         }
