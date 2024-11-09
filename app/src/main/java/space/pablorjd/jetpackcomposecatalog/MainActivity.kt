@@ -85,7 +85,7 @@ class MainActivity : ComponentActivity() {
                             .fillMaxSize()
                             .padding(16.dp)
                     ) {
-                        MyDropDownMenu()
+                        MyRangeSlider()
                     }
                 }
             }
@@ -113,10 +113,16 @@ fun GreetingPreview() {
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            MyDropDownMenu()
+            BasicSlider()
         }
 
     }
+}
+
+
+@Composable
+fun MySlider() {
+
 }
 
 @Composable
