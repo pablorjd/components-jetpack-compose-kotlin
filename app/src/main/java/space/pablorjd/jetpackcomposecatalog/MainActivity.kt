@@ -2,7 +2,6 @@ package space.pablorjd.jetpackcomposecatalog
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.ProgressBar
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -10,13 +9,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.BoxScope
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -59,6 +57,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -80,12 +79,21 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    Column(
-                        Modifier
-                            .fillMaxSize()
-                            .padding(16.dp)
-                    ) {
-                        MyRangeSlider()
+                    var show by remember { mutableStateOf(false) }
+                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Button(onClick = {
+                            show = true
+                        }) {
+                            Text("Open Dialog")
+                        }
+
+                        /**MyAlertDialog(show = show, onConfirm = {
+                            Log.i("Pablo", "click")
+                        }, onDismiss = { show = false }) **/
+
+                        //MySimpleCustomDialog(show = show, onDismiss = { show = false })
+                        //MyCustomDialog(show = show, onDismiss = { show = false })
+                        MyConfirmationDialog(show = show, onDismiss = { show = false })
                     }
                 }
             }
@@ -135,7 +143,7 @@ fun MyDropDownMenu() {
         mutableStateOf(false)
     }
 
-    val desserts = listOf<String>("Helado","Fruta","Cafe","Carne","Chilaquiles")
+    val desserts = listOf<String>("Helado", "Fruta", "Cafe", "Carne", "Chilaquiles")
     Column(Modifier.padding(20.dp)) {
         OutlinedTextField(
             value = selectedText,
@@ -151,8 +159,8 @@ fun MyDropDownMenu() {
             onDismissRequest = { expanded = false },
             modifier = Modifier.fillMaxWidth()
         ) {
-            desserts.forEach { dessert -> 
-                DropdownMenuItem(text = { Text(text = dessert)}, onClick = {
+            desserts.forEach { dessert ->
+                DropdownMenuItem(text = { Text(text = dessert) }, onClick = {
                     expanded = false
                     selectedText = dessert
                 })
@@ -233,35 +241,23 @@ fun MyRadioButtom() {
 }
 
 @Composable
-fun MyRadioButtonList() {
-    var selected by remember {
-        mutableStateOf("Pablo")
-    }
+fun MyRadioButtonList(status:String, onItemSelected: (String) -> Unit) {
     Column(
         Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Center
     ) {
-        Row {
-            RadioButton(selected = selected == "Pablo", onClick = { selected = "Pablo" })
-            Text(text = "Pablo")
+        Row(modifier = Modifier.padding(6.dp)) {
+            RadioButton(selected = status == "Pablo", onClick = { onItemSelected("Pablo") })
+            Text(text = "Pablo", modifier = Modifier.padding(12.dp))
         }
-        Row {
-            RadioButton(selected = selected == "Litzi", onClick = { selected = "Litzi" })
-            Text(text = "Litzi")
+        Row(modifier = Modifier.padding(6.dp)) {
+            RadioButton(selected = status == "Litzi", onClick = { onItemSelected("Litzi")})
+            Text(text = "Litzi",modifier = Modifier.padding(12.dp))
         }
-        Row {
-            RadioButton(selected = selected == "Florencia", onClick = { selected = "Florencia" })
-            Text(text = "Florencia")
-        }
-        Row {
-            RadioButton(selected = selected == "Maximiliano",
-                onClick = { selected = "Maximiliano" })
-            Text(text = "Maximiliano ")
-        }
-        Row {
-            RadioButton(selected = selected == "Noah", onClick = { selected = "Noah" })
-            Text(text = "Noah")
+        Row(modifier = Modifier.padding(6.dp)) {
+            RadioButton(selected = status == "Florencia", onClick = { onItemSelected("Florencia") })
+            Text(text = "Florencia",modifier = Modifier.padding(12.dp))
         }
     }
 }
