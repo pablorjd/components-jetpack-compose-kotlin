@@ -57,7 +57,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -79,22 +78,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    var show by remember { mutableStateOf(false) }
-                    Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                        Button(onClick = {
-                            show = true
-                        }) {
-                            Text("Open Dialog")
-                        }
-
-                        /**MyAlertDialog(show = show, onConfirm = {
-                            Log.i("Pablo", "click")
-                        }, onDismiss = { show = false }) **/
-
-                        //MySimpleCustomDialog(show = show, onDismiss = { show = false })
-                        //MyCustomDialog(show = show, onDismiss = { show = false })
-                        MyConfirmationDialog(show = show, onDismiss = { show = false })
-                    }
+                    SuperHeroStickyView()
                 }
             }
         }
