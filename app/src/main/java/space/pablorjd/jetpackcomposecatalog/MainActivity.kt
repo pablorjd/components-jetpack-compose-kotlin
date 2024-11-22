@@ -1,7 +1,6 @@
 package space.pablorjd.jetpackcomposecatalog
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
@@ -9,7 +8,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -42,7 +40,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -69,6 +66,9 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import space.pablorjd.jetpackcomposecatalog.ui.theme.JetpackComposeCatalogTheme
 
 class MainActivity : ComponentActivity() {
@@ -79,7 +79,19 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    ScaffoldScreen()
+                    val navController = rememberNavController()
+                    NavHost(navController = navController, startDestination = "screen1") {
+                        composable(route = "screen1") {
+                            OneScreen(navController)
+                        }
+                        composable(route = "screen2") {
+                            SecondScreen(navController)
+                        }
+                        composable(route = "screen3") {
+                            TreeeScreen(navController)
+                        }
+                    }
+
                 }
             }
         }
@@ -226,7 +238,7 @@ fun MyRadioButtom() {
 }
 
 @Composable
-fun MyRadioButtonList(status:String, onItemSelected: (String) -> Unit) {
+fun MyRadioButtonList(status: String, onItemSelected: (String) -> Unit) {
     Column(
         Modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
@@ -237,12 +249,12 @@ fun MyRadioButtonList(status:String, onItemSelected: (String) -> Unit) {
             Text(text = "Pablo", modifier = Modifier.padding(12.dp))
         }
         Row(modifier = Modifier.padding(6.dp)) {
-            RadioButton(selected = status == "Litzi", onClick = { onItemSelected("Litzi")})
-            Text(text = "Litzi",modifier = Modifier.padding(12.dp))
+            RadioButton(selected = status == "Litzi", onClick = { onItemSelected("Litzi") })
+            Text(text = "Litzi", modifier = Modifier.padding(12.dp))
         }
         Row(modifier = Modifier.padding(6.dp)) {
             RadioButton(selected = status == "Florencia", onClick = { onItemSelected("Florencia") })
-            Text(text = "Florencia",modifier = Modifier.padding(12.dp))
+            Text(text = "Florencia", modifier = Modifier.padding(12.dp))
         }
     }
 }
