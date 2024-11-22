@@ -66,9 +66,12 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import space.pablorjd.jetpackcomposecatalog.model.Routes
 import space.pablorjd.jetpackcomposecatalog.ui.theme.JetpackComposeCatalogTheme
 
 class MainActivity : ComponentActivity() {
@@ -80,15 +83,25 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "screen1") {
-                        composable(route = "screen1") {
+                    NavHost(
+                        navController = navController,
+                        startDestination = Routes.Pantalla1.route
+                    ) {
+                        composable(route = Routes.Pantalla1.route) {
                             OneScreen(navController)
                         }
-                        composable(route = "screen2") {
+                        composable(route = Routes.Pantalla2.route) {
                             SecondScreen(navController)
                         }
-                        composable(route = "screen3") {
+                        composable(route = Routes.Pantalla3.route) {
                             TreeeScreen(navController)
+                        }
+                        composable(
+                            route = "pantalla4/{name}",
+                            arguments = listOf(navArgument("name") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val name = backStackEntry.arguments?.getInt("name")
+                            FourScreen(navController, name = name!!)
                         }
                     }
 
