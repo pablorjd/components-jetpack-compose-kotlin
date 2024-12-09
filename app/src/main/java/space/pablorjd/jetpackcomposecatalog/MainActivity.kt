@@ -97,11 +97,18 @@ class MainActivity : ComponentActivity() {
                             TreeeScreen(navController)
                         }
                         composable(
-                            route = "pantalla4/{name}",
+                            route = Routes.Pantalla4.route,
+                            arguments = listOf(navArgument("age") { type = NavType.IntType })
+                        ) { backStackEntry ->
+                            val age = backStackEntry.arguments?.getInt("age")
+                            FourScreen(navController, age = age!!)
+                        }
+                        composable(
+                            route = Routes.Pantalla5.route,
                             arguments = listOf(navArgument("name") { type = NavType.IntType })
                         ) { backStackEntry ->
-                            val name = backStackEntry.arguments?.getInt("name")
-                            FourScreen(navController, name = name!!)
+                            val name = backStackEntry.arguments?.getString("name")
+                            FiveScreen(navController, name = name!!)
                         }
                     }
 

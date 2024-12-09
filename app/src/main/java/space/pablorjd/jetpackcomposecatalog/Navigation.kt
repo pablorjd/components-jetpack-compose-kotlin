@@ -65,18 +65,35 @@ fun TreeeScreen(navController: NavHostController) {
             color = Color.Black,
             modifier = Modifier
                 .align(Alignment.Center)
-                .clickable { navController.navigate("pantalla4/123") })
+                .clickable { navController.navigate(route = Routes.Pantalla4.createRoute(33)) })
     }
 }
 @Composable
-fun FourScreen(navController: NavHostController, name:Int) {
+fun FourScreen(navController: NavHostController, age:Int) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Gray)
     ) {
         Text(
-            text = "Pantalla 4 ${name.toString()}",
+            text = "Tengo $age años",
+            fontWeight = FontWeight.Bold,
+            fontSize = 24.sp,
+            color = Color.Black,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .clickable { navController.navigate(Routes.Pantalla1.route) })
+    }
+}
+@Composable
+fun FiveScreen(navController: NavHostController, name:String) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Gray)
+    ) {
+        Text(
+            text = "Me llamlo $name",
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
             color = Color.Black,
