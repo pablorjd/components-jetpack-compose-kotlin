@@ -105,7 +105,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(
                             route = Routes.Pantalla5.route,
-                            arguments = listOf(navArgument("name") { type = NavType.IntType })
+                            arguments = listOf(navArgument("name") { defaultValue = "PabloOpt" })
                         ) { backStackEntry ->
                             val name = backStackEntry.arguments?.getString("name")
                             FiveScreen(navController, name = name!!)

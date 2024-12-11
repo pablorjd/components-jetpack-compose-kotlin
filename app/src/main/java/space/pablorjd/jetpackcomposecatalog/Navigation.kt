@@ -82,18 +82,19 @@ fun FourScreen(navController: NavHostController, age:Int) {
             color = Color.Black,
             modifier = Modifier
                 .align(Alignment.Center)
-                .clickable { navController.navigate(Routes.Pantalla1.route) })
+//                .clickable { navController.navigate(Routes.Pantalla5.createRoute("PABLO JIMENEZ")) }) //ruta con parametro definido
+                .clickable { navController.navigate("pantalla5") }) //ruta sin la implementacion o paso de parametro
     }
 }
 @Composable
-fun FiveScreen(navController: NavHostController, name:String) {
+fun FiveScreen(navController: NavHostController, name:String?) {
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(Color.Gray)
     ) {
         Text(
-            text = "Me llamlo $name",
+            text = "Me llamo $name",
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
             color = Color.Black,

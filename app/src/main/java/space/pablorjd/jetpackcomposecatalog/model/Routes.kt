@@ -7,7 +7,8 @@ sealed class Routes(val route:String) {
     object Pantalla4: Routes("pantall4/{age}"){
         fun createRoute(age:Int) = "pantall4/$age"
     }
-    object Pantalla5: Routes("pantalla5/{name}"){
-        fun createRoute(name:String) = "pantalla5/$name"
+    //parametros opt
+    object Pantalla5: Routes("pantalla5?name={name}"){
+        fun createRoute(name:String?) = "pantalla5?name=$name"
     }
 }
